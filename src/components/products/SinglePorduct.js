@@ -34,7 +34,8 @@ const SingleProduct = (props) => {
             data-product_sku=""
             data-product_id="70"
             rel="nofollow"
-            href="/canvas/shop/?add-to-cart=70"
+            href="#"
+            onClick={() => props.addToCart(product)}
           >
             Add to cart
           </a>

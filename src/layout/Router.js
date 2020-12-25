@@ -10,7 +10,7 @@ import ProductDetails from "../pages/ProductDetails";
 import Footer from "./footer";
 import Menu from "./menu";
 const Router = (props) => {
-  const { cart } = props;
+  const { cart, changeQuantityHandler, addToCart } = props;
   return (
     <BrowserRouter>
       <Branding cart={props.cart} />
@@ -19,16 +19,36 @@ const Router = (props) => {
       <Switch>
         {props.categories.map((category) => (
           <Route exact key={category.id} path={`/${category.name}.html`}>
-            <ProductList cart={cart} category={category} />
+            <ProductList
+              cart={cart}
+              category={category}
+              addToCart={addToCart}
+              changeQuantityHandler={props.changeQuantityHandler}
+            />
           </Route>
         ))}
         <Route
           exact
           path="/:categoryName/productDetails/:id.html"
-          render={(props) => <ProductDetails {...props} cart={cart} />}
+          render={(props) => (
+            <ProductDetails
+              {...props}
+              cart={cart}
+              addToCart={addToCart}
+              changeQuantityHandler={changeQuantityHandler}
+            />
+          )}
         />
         <Route path="/" exact render={() => <HomePage />} />
-        <Route path="/cart.html" render={() => <CartPage cart={cart} />} />
+        <Route
+          path="/cart.html"
+          render={() => (
+            <CartPage
+              changeQuantityHandler={props.changeQuantityHandler}
+              cart={cart}
+            />
+          )}
+        />
         <Route path="/checkout.html" render={() => <CheckoutPage />} />
 
         <Route path="/search" render={() => <SearchPage />} />

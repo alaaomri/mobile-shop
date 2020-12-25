@@ -1,19 +1,24 @@
 import React, { Component } from "react";
-import { fetchCategories, fetchCartData } from "./api";
+import {
+  fetchCategories,
+  fetchCartData,
+  modifyCartData,
+  addNewCartData,
+} from "./api";
+import cartTotal from "./components/cart/cartTotal";
 
-import Branding from "./components/branding/branding";
 import Router from "./layout/Router";
-import Footer from "./layout/footer";
 
 class App extends Component {
   state = {
     categories: [],
+    loading: true,
     isMenuDisplayed: true,
     cart: {
       id: "",
       total: 0,
       subTotal: 0,
-      tax: 14.7,
+      tax: 20,
       items: [],
     },
   };
@@ -22,33 +27,111 @@ class App extends Component {
     const cartID = localStorage.getItem("cartID");
 
     const data = await fetchCategories();
-    this.setState({ categories: data });
+    this.setState({ categories: data, loading: false });
     if (cartID != null) {
       const cartData = await fetchCartData(cartID);
-      console.log(cartData);
       this.setState({ cart: cartData });
     }
   }
 
-  errorBloc = () => {
+  changeCartQuantityHandler = (entryId, quantity) => {
+    const cartID = localStorage.getItem("cartID");
+    const cart = { ...this.state.cart };
+
+    const entryIndex = cart.items.findIndex((item) => item.id === entryId);
+    if (quantity === 0) {
+      cart.items[entryIndex].qty = 0;
+      cart.items = cart.items.splice(entryIndex, 1);
+    } else {
+      cart.items[entryIndex].qty = quantity;
+    }
+
+    const total = this.cartTotal(cart);
+
+    cart.total = total;
+    cart.subTotal = 0.8 * total;
+    if (cartID != null) {
+      this.setState({ cart });
+    }
+
+    modifyCartData(cartID, cart);
+  };
+
+  addToCart = (product) => {
+    const cartID = localStorage.getItem("cartID");
+    if (cartID == null) {
+      const cartId = Math.random().toString(36).substr(2, 9);
+      localStorage.setItem("cartID", cartId);
+      const cart = { ...this.state.cart };
+      cart.id = cartId;
+      cart.total = product.price;
+      cart.subTotal = 0.8 * product.price;
+      cart.tax = 20;
+      const item = {
+        id: product.id,
+        name: product.name,
+        imageName: product.imageName,
+        price: product.price,
+        qty: 1,
+      };
+      cart.items.push(item);
+      this.setState({ cart });
+      addNewCartData(cartId, cart);
+    } else {
+      const cart = { ...this.state.cart };
+      const entryIndex = cart.items.findIndex((item) => item.id === product.id);
+      if (entryIndex > -1) {
+        debugger;
+        cart.items[entryIndex].qty = cart.items[entryIndex].qty + 1;
+        const total = this.cartTotal(cart);
+
+        cart.total = total;
+        cart.subTotal = 0.8 * total;
+      } else {
+        const item = {
+          id: product.id,
+          name: product.name,
+          imageName: product.imageName,
+          price: product.price,
+          qty: 1,
+        };
+        cart.items.push(item);
+        const total = this.cartTotal(cart);
+
+        cart.total = total;
+        cart.subTotal = 0.8 * total;
+      }
+      modifyCartData(cartID, cart);
+    }
+  };
+
+  cartTotal = (cart) => {
+    return cart.items
+      .map((item) => item.price * item.qty)
+      .reduce((sum, current) => parseInt(sum + current), 0);
+  };
+
+  loadingBloc = () => {
     return (
-      <div className="alert alert-dismissible alert-danger">
-        <button type="button" className="close" data-dismiss="alert">
-          &times;
-        </button>
-        <strong>Oh snap!</strong>
-        <a href="#" className="alert-link">
-          Change a few things up
-        </a>
-        and try submitting again.
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     );
   };
 
   render() {
-    return (
+    return this.state.loding ? (
+      this.loadingBloc
+    ) : (
       <div>
-        <Router cart={this.state.cart} categories={this.state.categories} />
+        <Router
+          addToCart={this.addToCart}
+          changeQuantityHandler={this.changeCartQuantityHandler}
+          cart={this.state.cart}
+          categories={this.state.categories}
+        />
       </div>
     );
   }

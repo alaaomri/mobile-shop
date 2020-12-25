@@ -16,7 +16,7 @@ const cartTotal = (props) => {
 
           <tr className="shipping">
             <th>{`Taxe (${cart.tax}%)`}</th>
-            <td>20.23 €</td>
+            <td>{cart.total - cart.subTotal} €</td>
           </tr>
 
           <tr className="order-total">

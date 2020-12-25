@@ -1,5 +1,5 @@
-const CheckoutPage = () => {
-  return <h1>checkout Page</h1>;
+const CheckoutPage = (props) => {
+  return props ? "" : "";
 };
 
 export default CheckoutPage;

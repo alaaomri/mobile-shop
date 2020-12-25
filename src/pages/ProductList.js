@@ -25,6 +25,7 @@ const ProductList = (props) => {
           <div className="row">
             {products.map((product) => (
               <SingleProduct
+                addToCart={props.addToCart}
                 key={product.id}
                 categoryName={props.category.name}
                 product={product}

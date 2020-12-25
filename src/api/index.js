@@ -61,3 +61,23 @@ export const fetchCartData = async (cartId) => {
     return error;
   }
 };
+
+export const modifyCartData = async (cartId, cart) => {
+  try {
+    const { data } = await axios.put(`${BASE_URL}/carts/${cartId}`, cart);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export const addNewCartData = async (cartId, cart) => {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/carts/${cartId}`, cart);
+    return fetchCartData(cartId);
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};

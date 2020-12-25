@@ -14,7 +14,10 @@ const CartPage = (props) => {
             <div className="col-md-12">
               <div className="product-content-right">
                 <div className="woocommerce">
-                  <CartContent cart={props.cart} />
+                  <CartContent
+                    cart={props.cart}
+                    changeQuantityHandler={props.changeQuantityHandler}
+                  />
 
                   <div className="cart-collaterals">
                     <CrossSells />
