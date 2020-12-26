@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Footer = (props) => {
   return (
@@ -25,15 +25,14 @@ const Footer = (props) => {
           <div className="col-md-4 col-sm-6">
             <div className="footer-menu">
               <h2 className="footer-wid-title">Categories </h2>
-              <BrowserRouter>
-                <ul>
-                  {props.categories.map((category) => (
-                    <li key={category.id}>
-                      <Link to={`${category.name}.html`}>{category.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </BrowserRouter>
+
+              <ul>
+                {props.categories.map((category) => (
+                  <li key={category.id}>
+                    <Link to={`/${category.name}.html`}>{category.name}</Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 

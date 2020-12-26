@@ -1,9 +1,6 @@
 import React from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
-import CartPage from "../pages/CartPage";
-import CheckoutPage from "../pages/CheckoutPage";
-import HomePage from "../pages/HomePage";
-import ProductList from "../pages/ProductList";
+import { Link } from "react-router-dom";
+
 const Menu = (props) => {
   return (
     <div className="mainmenu-area">
@@ -12,11 +9,11 @@ const Menu = (props) => {
           <div className="navbar">
             <ul className="nav navbar-nav navbar-expand">
               <li>
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               {props.categories.map((category) => (
                 <li key={category.id}>
-                  <Link to={`${category.name}.html`}>{category.name}</Link>
+                  <Link to={`/${category.name}.html`}>{category.name}</Link>
                 </li>
               ))}
             </ul>

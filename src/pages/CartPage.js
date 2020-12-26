@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Branding from "../components/branding/branding";
+import React from "react";
+
 import CartContent from "../components/cart/cartContent";
 import CartTotal from "../components/cart/cartTotal";
 import CrossSells from "../components/cart/crossSells";

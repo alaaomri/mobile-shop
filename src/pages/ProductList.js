@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchProducts } from "../api";
-import Branding from "../components/branding/branding";
-import productSummary from "../components/products/ProductSummary";
+
 import SingleProduct from "../components/products/SinglePorduct";
 import Banner from "../layout/banner";
 

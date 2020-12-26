@@ -1,7 +1,7 @@
 const cartTotal = (props) => {
   const { cart } = props;
 
-  return (
+  return cart.items.length !== 0 ? (
     <div className="cart_totals ">
       <h2>Cart Totals</h2>
 
@@ -10,27 +10,27 @@ const cartTotal = (props) => {
           <tr className="cart-subtotal">
             <th>Cart Subtotal</th>
             <td>
-              <span className="amount">{cart.subTotal} €</span>
+              <span className="amount">{cart.subTotal.toFixed(2)} €</span>
             </td>
           </tr>
 
           <tr className="shipping">
             <th>{`Taxe (${cart.tax}%)`}</th>
-            <td>{cart.total - cart.subTotal} €</td>
+            <td>{(cart.total - cart.subTotal).toFixed(2)} €</td>
           </tr>
 
           <tr className="order-total">
             <th>Order Total</th>
             <td>
               <strong>
-                <span className="amount">{cart.total} €</span>
+                <span className="amount">{cart.total.toFixed(2)} €</span>
               </strong>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-  );
+  ) : null;
 };
 
 export default cartTotal;

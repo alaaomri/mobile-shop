@@ -1,43 +1,57 @@
 import React, { useState, useEffect } from "react";
 import Breadcrumb from "../components/breadcrumb";
 import Price from "../components/format/price";
-import RecentlyViewed from "../components/products/RecentlyViewed";
 import { fetchProductDetails } from "../api";
+import SideBar from "../components/products/SideBar";
 
 const ProductDetails = (props) => {
   const {
     match: {
       params: { id, categoryName },
     },
+    categories,
   } = props;
   const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     async function fetchProductInformations() {
       const data = await fetchProductDetails(id);
-      console.log(data);
       setProduct(data);
     }
     fetchProductInformations();
-  }, []);
+  }, [quantity]);
+
+  const changeQuantityHandler = (event) => {
+    const value = parseInt(event.target.value);
+    setQuantity(value);
+  };
+
+  const addTocartHandler = (product) => {
+    props.addToCart(product, quantity);
+    //setQuantity(1);
+  };
 
   return product !== {} ? (
-    <div class="single-product-area">
-      <div class="zigzag-bottom"></div>
-      <div class="container">
-        <div class="row">
-          <RecentlyViewed />
-          <div class="col-md-8">
-            <div class="product-content-right">
+    <div className="single-product-area">
+      <div className="zigzag-bottom"></div>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4">
+            <SideBar categories={categories} currentCategory={categoryName} />
+          </div>
+
+          <div className="col-md-8">
+            <div className="product-content-right">
               <Breadcrumb
                 categoryName={categoryName}
                 productName={product.name}
               />
 
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="product-images">
-                    <div class="product-main-img">
+              <div className="row">
+                <div className="col-sm-6">
+                  <div className="product-images">
+                    <div className="product-main-img">
                       <img
                         src={
                           product.imageName
@@ -49,7 +63,7 @@ const ProductDetails = (props) => {
                       />
                     </div>
 
-                    <div class="product-gallery">
+                    <div className="product-gallery">
                       <img
                         src={
                           product.imageName
@@ -81,33 +95,37 @@ const ProductDetails = (props) => {
                   </div>
                 </div>
 
-                <div class="col-sm-6">
-                  <div class="product-inner">
-                    <h2 class="product-name">{product.name}</h2>
+                <div className="col-sm-6">
+                  <div className="product-inner">
+                    <h2 className="product-name">{product.name}</h2>
                     <Price
-                      stylingClass="product-inner-price"
+                      stylingclassName="product-inner-price"
                       discount={product.discountRate}
                       price={product.price}
                     />
-                    <form action="" class="cart">
-                      <div class="quantity">
+                    <form className="cart">
+                      <div className="quantity">
                         <input
                           type="number"
                           size="4"
-                          class="input-text qty text"
+                          className="input-text qty text"
                           title="Qty"
-                          value="1"
+                          value={quantity}
                           name="quantity"
                           min="1"
                           step="1"
+                          onChange={changeQuantityHandler}
                         />
                       </div>
-                      <button class="add_to_cart_button" type="submit">
-                        Add to cart
-                      </button>
+                      <input
+                        className="add_to_cart_button"
+                        type="submit"
+                        value="Add to cart"
+                        onClick={() => addTocartHandler(product)}
+                      />
                     </form>
 
-                    <div class="product-inner-category">
+                    <div className="product-inner-category">
                       <h2>Product Description</h2>
                       <p>{product.description}</p>
                     </div>

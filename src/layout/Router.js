@@ -1,20 +1,20 @@
 import React from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
-import Branding from "../components/branding/branding";
+import { Route, Switch, withRouter } from "react-router-dom";
+
 import CartPage from "../pages/CartPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import HomePage from "../pages/HomePage";
 import SearchPage from "../pages/SearchPage";
 import ProductList from "../pages/ProductList";
 import ProductDetails from "../pages/ProductDetails";
+import NotFound from "../pages/notFound";
 import Footer from "./footer";
-import Menu from "./menu";
+import Header from "./header";
 const Router = (props) => {
-  const { cart, changeQuantityHandler, addToCart } = props;
+  const { cart, changeQuantityHandler, addToCart, categories } = props;
   return (
-    <BrowserRouter>
-      <Branding cart={props.cart} />
-      <Menu categories={props.categories} />
+    <React.Fragment>
+      <Header {...props} />
 
       <Switch>
         {props.categories.map((category) => (
@@ -29,17 +29,18 @@ const Router = (props) => {
         ))}
         <Route
           exact
-          path="/:categoryName/productDetails/:id.html"
+          path="/:categoryName/:id/:productName.html"
           render={(props) => (
             <ProductDetails
               {...props}
               cart={cart}
               addToCart={addToCart}
+              categories={categories}
               changeQuantityHandler={changeQuantityHandler}
             />
           )}
         />
-        <Route path="/" exact render={() => <HomePage />} />
+
         <Route
           path="/cart.html"
           render={() => (
@@ -51,11 +52,16 @@ const Router = (props) => {
         />
         <Route path="/checkout.html" render={() => <CheckoutPage />} />
 
-        <Route path="/search" render={() => <SearchPage />} />
+        <Route
+          path="/search"
+          render={() => <SearchPage searchResult={props.searchResult} />}
+        />
+        <Route path="/" exact render={() => <HomePage />} />
+        <Route component={NotFound} />
       </Switch>
-      <Footer categories={props.categories} />
-    </BrowserRouter>
+      <Footer categories={categories} />
+    </React.Fragment>
   );
 };
 
-export default Router;
+export default withRouter(Router);

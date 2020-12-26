@@ -4,8 +4,8 @@ import {
   fetchCartData,
   modifyCartData,
   addNewCartData,
+  searchProducts,
 } from "./api";
-import cartTotal from "./components/cart/cartTotal";
 
 import Router from "./layout/Router";
 
@@ -13,6 +13,7 @@ class App extends Component {
   state = {
     categories: [],
     loading: true,
+    searchResult: [],
     isMenuDisplayed: true,
     cart: {
       id: "",
@@ -34,14 +35,20 @@ class App extends Component {
     }
   }
 
+  searchProductsHandler = (query) => {
+    const data = searchProducts(query);
+    this.setState({ searchResult: data });
+  };
+
   changeCartQuantityHandler = (entryId, quantity) => {
     const cartID = localStorage.getItem("cartID");
     const cart = { ...this.state.cart };
 
     const entryIndex = cart.items.findIndex((item) => item.id === entryId);
+
     if (quantity === 0) {
       cart.items[entryIndex].qty = 0;
-      cart.items = cart.items.splice(entryIndex, 1);
+      cart.items.splice(entryIndex, 1);
     } else {
       cart.items[entryIndex].qty = quantity;
     }
@@ -57,10 +64,10 @@ class App extends Component {
     modifyCartData(cartID, cart);
   };
 
-  addToCart = (product) => {
+  addToCart = (product, quantity) => {
     const cartID = localStorage.getItem("cartID");
     if (cartID == null) {
-      const cartId = Math.random().toString(36).substr(2, 9);
+      const cartId = Math.random().toString(36).substr(2, 10);
       localStorage.setItem("cartID", cartId);
       const cart = { ...this.state.cart };
       cart.id = cartId;
@@ -72,17 +79,16 @@ class App extends Component {
         name: product.name,
         imageName: product.imageName,
         price: product.price,
-        qty: 1,
+        qty: quantity,
       };
       cart.items.push(item);
       this.setState({ cart });
-      addNewCartData(cartId, cart);
+      addNewCartData(cart);
     } else {
       const cart = { ...this.state.cart };
       const entryIndex = cart.items.findIndex((item) => item.id === product.id);
       if (entryIndex > -1) {
-        debugger;
-        cart.items[entryIndex].qty = cart.items[entryIndex].qty + 1;
+        cart.items[entryIndex].qty = cart.items[entryIndex].qty + quantity;
         const total = this.cartTotal(cart);
 
         cart.total = total;
@@ -93,7 +99,7 @@ class App extends Component {
           name: product.name,
           imageName: product.imageName,
           price: product.price,
-          qty: 1,
+          qty: quantity,
         };
         cart.items.push(item);
         const total = this.cartTotal(cart);
@@ -101,6 +107,7 @@ class App extends Component {
         cart.total = total;
         cart.subTotal = 0.8 * total;
       }
+      this.setState({ cart });
       modifyCartData(cartID, cart);
     }
   };
@@ -127,6 +134,8 @@ class App extends Component {
     ) : (
       <div>
         <Router
+          searchProducts={this.searchProductsHandler}
+          searchResult={this.state.searchResult}
           addToCart={this.addToCart}
           changeQuantityHandler={this.changeCartQuantityHandler}
           cart={this.state.cart}

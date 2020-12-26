@@ -1,4 +1,4 @@
-const SearchPage = () => {
+const SearchPage = (props) => {
   return <h1>Search Page</h1>;
 };
 

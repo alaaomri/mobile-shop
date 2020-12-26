@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { searchProduct } from "../../api";
 
 const Search = (props) => {
   const [query, setQuery] = useState("");
@@ -8,14 +7,15 @@ const Search = (props) => {
     setQuery(event.target.value);
   };
 
-  const serchProductsHandler = async () => {
+  const searchProductsHandler = () => {
+    debugger;
     if (query !== undefined && query !== "" && query !== null) {
       window.location.href = "http://localhost:3000/search?q=" + query;
-      const data = await searchProduct(query);
+      props.searchProducts(query);
     }
   };
 
-  return (
+  return props.isSearchDisplay ? (
     <div className="col-sm-4">
       <input
         type="text"
@@ -24,9 +24,9 @@ const Search = (props) => {
         placeholder="Search products..."
         onChange={queryChangeHandler}
       />
-      <input type="button" value="Search" onClick={serchProductsHandler} />
+      <input type="button" value="Search" onClick={searchProductsHandler} />
     </div>
-  );
+  ) : null;
 };
 
 export default Search;

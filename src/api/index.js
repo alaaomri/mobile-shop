@@ -29,7 +29,7 @@ export const fetchTopProducts = async (subUrl) => {
   }
 };
 
-export const searchProduct = async (query) => {
+export const searchProducts = async (query) => {
   const params = {
     q: query,
   };
@@ -72,10 +72,10 @@ export const modifyCartData = async (cartId, cart) => {
   }
 };
 
-export const addNewCartData = async (cartId, cart) => {
+export const addNewCartData = async (cart) => {
   try {
-    const { data } = await axios.post(`${BASE_URL}/carts/${cartId}`, cart);
-    return fetchCartData(cartId);
+    const { data } = await axios.post(`${BASE_URL}/carts`, cart);
+    return data;
   } catch (error) {
     console.error(error);
     return error;

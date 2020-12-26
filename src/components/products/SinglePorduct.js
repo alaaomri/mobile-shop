@@ -17,7 +17,12 @@ const SingleProduct = (props) => {
           />
         </div>
         <h2>
-          <Link to={`${categoryName}/productDetails/${product.id}.html`}>
+          <Link
+            to={`/${categoryName}/${product.id}/${product.name.replaceAll(
+              " ",
+              "_"
+            )}.html`}
+          >
             {product.name}
           </Link>
         </h2>
@@ -35,7 +40,7 @@ const SingleProduct = (props) => {
             data-product_id="70"
             rel="nofollow"
             href="#"
-            onClick={() => props.addToCart(product)}
+            onClick={() => props.addToCart(product, 1)}
           >
             Add to cart
           </a>

@@ -8,9 +8,16 @@ const Branding = (props) => {
     <div className="site-branding-area">
       <div className="container">
         <div className="row">
-          <Brand />
-          <Search />
-          <CartSummary cart={props.cart} />
+          <Brand isSearchDisplay={props.isSearchDisplay} />
+          <Search
+            isSearchDisplay={props.isSearchDisplay}
+            searchProducts={props.searchProducts}
+          />
+
+          <CartSummary
+            cart={props.cart}
+            isSearchDisplay={props.isSearchDisplay}
+          />
         </div>
       </div>
     </div>

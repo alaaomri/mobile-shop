@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+
 const breadcrumb = (props) => {
   const { categoryName, productName } = props;
   return (
     <div className="product-breadcroumb">
-      <a href="">Home</a>
-      <a href="">{categoryName}</a>
-      <a href="">{productName}</a>
+      <Link to="/">Home</Link>
+      <Link to={`/${categoryName}.html`}>{categoryName}</Link>
+      <Link to="#">{productName}</Link>
     </div>
   );
 };
