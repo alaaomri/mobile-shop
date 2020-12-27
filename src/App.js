@@ -5,8 +5,9 @@ import {
   modifyCartData,
   addNewCartData,
 } from "./api";
-
-import Router from "./Routes/Router";
+import Footer from "./components/layout/footer";
+import Header from "./components/layout/header";
+import Routes from "./routes/routes";
 
 class App extends Component {
   state = {
@@ -29,6 +30,10 @@ class App extends Component {
       const cartData = await fetchCartData(cartID);
       this.setState({ cart: cartData });
     }
+  }
+
+  componentWillUnmount() {
+    localStorage.removeItem("cartID");
   }
 
   changeCartQuantityHandler = (entryId, quantity) => {
@@ -123,14 +128,16 @@ class App extends Component {
     return this.state.loding ? (
       this.loadingBloc
     ) : (
-      <div>
-        <Router
+      <React.Fragment>
+        <Header categories={this.state.categories} cart={this.state.cart} />
+        <Routes
           addToCart={this.addToCart}
           changeQuantityHandler={this.changeCartQuantityHandler}
           cart={this.state.cart}
           categories={this.state.categories}
         />
-      </div>
+        <Footer categories={this.state.categories} />
+      </React.Fragment>
     );
   }
 }

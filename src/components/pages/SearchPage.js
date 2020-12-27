@@ -11,12 +11,14 @@ const SearchPage = (props) => {
   } = props;
 
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const query = search.split("?q=");
   useEffect(() => {
     const getSearchResult = async () => {
       const data = await searchProducts(query[1]);
 
       setProducts(data);
+      setLoading(false);
     };
     getSearchResult();
   }, []);
@@ -30,7 +32,9 @@ const SearchPage = (props) => {
     return "";
   };
 
-  return (
+  return loading ? (
+    <p className="text-center">Fetching Data ...</p>
+  ) : (
     <React.Fragment>
       <Banner categoryName={`Résultats pour “${query[1]}”`} />
       {products.length === 0 ? (

@@ -100,7 +100,7 @@ const ProductDetails = (props) => {
                   <div className="product-inner">
                     <h2 className="product-name">{product.name}</h2>
                     <Price
-                      stylingclassName="product-inner-price"
+                      stylingClass="product-inner-price"
                       discount={product.discountRate}
                       price={product.price}
                     />

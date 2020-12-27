@@ -3,7 +3,7 @@ import Carousel from "../layout/carousel";
 import ProductWidgets from "../products/productWidgets";
 import PromotionArea from "../layout/promotion";
 
-const HomePage = () => {
+const homePage = () => {
   return (
     <>
       <Carousel />
@@ -13,4 +13,4 @@ const HomePage = () => {
     </>
   );
 };
-export default HomePage;
+export default homePage;

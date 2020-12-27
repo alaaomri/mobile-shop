@@ -1,7 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const Menu = (props) => {
+const menu = (props) => {
   return (
     <div className="mainmenu-area">
       <div className="container">
@@ -9,11 +8,13 @@ const Menu = (props) => {
           <div className="navbar">
             <ul className="nav navbar-nav navbar-expand">
               <li>
-                <Link to="/">Home</Link>
+                <NavLink to="/">Home</NavLink>
               </li>
               {props.categories.map((category) => (
                 <li key={category.id}>
-                  <Link to={`/${category.name}.html`}>{category.name}</Link>
+                  <NavLink to={`/${category.name}.html`}>
+                    {category.name}
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -23,4 +24,4 @@ const Menu = (props) => {
     </div>
   );
 };
-export default Menu;
+export default menu;

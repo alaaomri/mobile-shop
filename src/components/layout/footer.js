@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const Footer = (props) => {
+const footer = (props) => {
   return (
     <div className="footer-top-area">
       <div className="zigzag-bottom"></div>
@@ -29,7 +29,9 @@ const Footer = (props) => {
               <ul>
                 {props.categories.map((category) => (
                   <li key={category.id}>
-                    <Link to={`/${category.name}.html`}>{category.name}</Link>
+                    <NavLink to={`/${category.name}.html`}>
+                      {category.name}
+                    </NavLink>
                   </li>
                 ))}
               </ul>
@@ -56,4 +58,4 @@ const Footer = (props) => {
     </div>
   );
 };
-export default Footer;
+export default footer;
