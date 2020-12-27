@@ -5,6 +5,7 @@ import {
   modifyCartData,
   addNewCartData,
 } from "./api";
+import ErrorBloc from "./components/layout/errorBloc";
 import Footer from "./components/layout/footer";
 import Header from "./components/layout/header";
 import Spinner from "./components/layout/spinner";
@@ -14,6 +15,7 @@ class App extends Component {
   state = {
     categories: [],
     cartLoading: true,
+    pageHasError: false,
     cart: {
       id: "",
       total: 0,
@@ -25,18 +27,28 @@ class App extends Component {
 
   async componentDidMount() {
     const cartID = localStorage.getItem("cartID");
+    await fetchCategories()
+      .then((categories) => {
+        this.setState({ categories });
+      })
+      .catch(() => {
+        this.setState({ pageHasError: true });
+      });
 
-    const data = await fetchCategories();
-    this.setState({ categories: data });
     if (cartID != null) {
-      const cartData = await fetchCartData(cartID);
-      this.setState({ cart: cartData });
+      await fetchCartData(cartID)
+        .then((cart) => {
+          this.setState({ cart });
+        })
+        .catch(() => {
+          this.setState({ pageHasError: true });
+        });
     }
     this.setState({ cartLoading: false });
   }
 
   componentWillUnmount() {
-    localStorage.removeItem("cartID");
+    //localStorage.removeItem("cartID");
   }
 
   changeCartQuantityHandler = (entryId, quantity) => {
@@ -124,6 +136,8 @@ class App extends Component {
   render() {
     return this.state.loding ? (
       <Spinner />
+    ) : this.state.pageHasError ? (
+      <ErrorBloc />
     ) : (
       <React.Fragment>
         <Header categories={this.state.categories} cart={this.state.cart} />

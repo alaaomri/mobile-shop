@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import EmptyCart from "./emptyCart";
 import Spinner from "../layout/spinner";
 const cartContent = (props) => {
@@ -11,6 +11,10 @@ const cartContent = (props) => {
     if (imageName.startsWith("samsung")) return "Samsung";
     if (imageName.startsWith("huawei")) return "Huawei";
     return "";
+  };
+
+  const checkoutPageHandler = () => {
+    props.history.push("/checkout.html");
   };
 
   const changeQuantityForCart = (event, cartItem) => {
@@ -56,7 +60,7 @@ const cartContent = (props) => {
                 href="#"
                 onClick={() => changeQuantityByOne(cartItem.id, "deleteEntry")}
               >
-                ×
+                <span aria-hidden="true">&times;</span>
               </a>
             </td>
 
@@ -108,7 +112,6 @@ const cartContent = (props) => {
                   size="4"
                   className="input-text qty text"
                   title="Qty"
-                  defaultValue={cartItem.qty || 1}
                   value={cartItem.qty}
                   onChange={(event) =>
                     changeQuantityForCart(event, cartItem.id)
@@ -139,7 +142,7 @@ const cartContent = (props) => {
             <input
               type="button"
               onClick={() => {
-                document.location.href = "/checkout.html";
+                checkoutPageHandler();
               }}
               value="Checkout"
               name="proceed"
@@ -154,4 +157,4 @@ const cartContent = (props) => {
   );
 };
 
-export default cartContent;
+export default withRouter(cartContent);
