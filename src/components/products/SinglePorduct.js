@@ -10,8 +10,10 @@ const SingleProduct = (props) => {
         <div className="product-upper">
           <img
             src={
-              require(`../../assets/img/produts-img/${categoryName}/${product.imageName}`)
-                .default
+              categoryName !== ""
+                ? require(`../../assets/img/produts-img/${categoryName}/${product.imageName}`)
+                    .default
+                : require(`../../assets/img/noImage.jpg`).default
             }
             alt=""
           />

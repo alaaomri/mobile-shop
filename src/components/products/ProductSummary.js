@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Price from "../format/price";
 const productSummary = (props) => {
   const { product } = props;
@@ -12,18 +13,32 @@ const productSummary = (props) => {
   };
   return (
     <div key={product.id} className="single-wid-product">
-      <a href="single-product.html">
+      <Link
+        to={`/${imageDirectory()}/${product.id}/${product.name.replaceAll(
+          " ",
+          "_"
+        )}.html`}
+      >
         <img
           src={
-            require(`../../assets/img/produts-img/${imageDirectory()}/${imageName}`)
-              .default
+            imageDirectory() !== ""
+              ? require(`../../assets/img/produts-img/${imageDirectory()}/${imageName}`)
+                  .default
+              : require(`../../assets/img/noImage.jpg`).default
           }
           alt=""
           className="product-thumb"
         />
-      </a>
+      </Link>
       <h2>
-        <a href="single-product.html">{product.name}</a>
+        <Link
+          to={`/${imageDirectory()}/${product.id}/${product.name.replaceAll(
+            " ",
+            "_"
+          )}.html`}
+        >
+          {product.name}
+        </Link>
       </h2>
       <div className="product-wid-rating">
         <i className="fa fa-star"></i>

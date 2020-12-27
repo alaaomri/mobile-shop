@@ -14,7 +14,7 @@ const SearchPage = (props) => {
   useEffect(() => {
     const getSearchResult = async () => {
       const data = await searchProducts(query[1]);
-      console.log(data);
+
       setProducts(data);
     };
     getSearchResult();
