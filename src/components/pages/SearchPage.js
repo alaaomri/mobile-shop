@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { fetchProducts } from "../api";
 
-import SingleProduct from "../components/products/SinglePorduct";
+import { searchProducts } from "../../api";
+import SingleProduct from "../products/SinglePorduct";
 import Banner from "../layout/banner";
 
-const ProductList = (props) => {
-  const [products, setProducts] = useState([]);
+const SearchPage = (props) => {
+  const {
+    location: { search },
+  } = props;
 
+  const [products, setProducts] = useState([]);
+  const query = search.split("?q=");
   useEffect(() => {
-    async function fetchData() {
-      const data = await fetchProducts(props.category.productListId);
-      setProducts(data.items);
-    }
-    fetchData();
+    const getSearchResult = async () => {
+      const data = await searchProducts(query[1]);
+
+      setProducts(data);
+    };
+    getSearchResult();
   }, []);
+
+  const productCategory = (productName) => {
+    if (productName.startsWith("apple")) return "Apple";
+    if (productName.startsWith("sony")) return "Sony";
+    if (productName.startsWith("lg")) return "LG";
+    if (productName.startsWith("samsung")) return "Samsung";
+    if (productName.startsWith("huawei")) return "Huawei";
+    return "";
+  };
 
   return (
     <React.Fragment>
-      <Banner categoryName={props.category.name} />
+      <Banner categoryName={`Résultats pour “${query[1]}”`} />
       <div className="single-product-area">
         <div className="zigzag-bottom"></div>
         <div className="container">
@@ -26,7 +40,7 @@ const ProductList = (props) => {
               <SingleProduct
                 addToCart={props.addToCart}
                 key={product.id}
-                categoryName={props.category.name}
+                categoryName={productCategory(product.name)}
                 product={product}
               />
             ))}
@@ -70,4 +84,5 @@ const ProductList = (props) => {
     </React.Fragment>
   );
 };
-export default ProductList;
+
+export default SearchPage;

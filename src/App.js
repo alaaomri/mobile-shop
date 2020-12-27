@@ -6,7 +6,7 @@ import {
   addNewCartData,
 } from "./api";
 
-import Router from "./layout/Router";
+import Router from "./Routes/Router";
 
 class App extends Component {
   state = {

@@ -1,37 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { fetchProducts } from "../../api";
 
-import { searchProducts } from "../api";
-import SingleProduct from "../components/products/SinglePorduct";
+import SingleProduct from "../products/SinglePorduct";
 import Banner from "../layout/banner";
 
-const SearchPage = (props) => {
-  const {
-    location: { search },
-  } = props;
-
+const ProductList = (props) => {
   const [products, setProducts] = useState([]);
-  const query = search.split("?q=");
+
   useEffect(() => {
-    const getSearchResult = async () => {
-      const data = await searchProducts(query[1]);
-
-      setProducts(data);
-    };
-    getSearchResult();
+    async function fetchData() {
+      const data = await fetchProducts(props.category.productListId);
+      setProducts(data.items);
+    }
+    fetchData();
   }, []);
-
-  const productCategory = (productName) => {
-    if (productName.startsWith("apple")) return "Apple";
-    if (productName.startsWith("sony")) return "Sony";
-    if (productName.startsWith("lg")) return "LG";
-    if (productName.startsWith("samsung")) return "Samsung";
-    if (productName.startsWith("huawei")) return "Huawei";
-    return "";
-  };
 
   return (
     <React.Fragment>
-      <Banner categoryName={`Résultats pour “${query[1]}”`} />
+      <Banner categoryName={props.category.name} />
       <div className="single-product-area">
         <div className="zigzag-bottom"></div>
         <div className="container">
@@ -40,7 +26,7 @@ const SearchPage = (props) => {
               <SingleProduct
                 addToCart={props.addToCart}
                 key={product.id}
-                categoryName={productCategory(product.name)}
+                categoryName={props.category.name}
                 product={product}
               />
             ))}
@@ -84,5 +70,4 @@ const SearchPage = (props) => {
     </React.Fragment>
   );
 };
-
-export default SearchPage;
+export default ProductList;

@@ -1,15 +1,15 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 
-import CartPage from "../pages/CartPage";
-import CheckoutPage from "../pages/CheckoutPage";
-import HomePage from "../pages/HomePage";
-import SearchPage from "../pages/SearchPage";
-import ProductList from "../pages/ProductList";
-import ProductDetails from "../pages/ProductDetails";
-import NotFound from "../pages/notFound";
-import Footer from "./footer";
-import Header from "./header";
+import CartPage from "../components/pages/CartPage";
+import CheckoutPage from "../components/pages/CheckoutPage";
+import HomePage from "../components/pages/HomePage";
+import SearchPage from "../components/pages/SearchPage";
+import ProductList from "../components/pages/ProductListPage";
+import ProductDetails from "../components/pages/ProductDetailsPage";
+import NotFound from "../components/pages/notFoundPage";
+import Footer from "../components/layout/footer";
+import Header from "../components/layout/header";
 const Router = (props) => {
   const { cart, changeQuantityHandler, addToCart, categories } = props;
   return (

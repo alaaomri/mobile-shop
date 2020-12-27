@@ -1,5 +1,5 @@
 import Menu from "./menu";
-import Branding from "../components/branding/branding";
+import Branding from "../branding/branding";
 const header = (props) => {
   const isDisplay =
     props.location.pathname !== "/cart.html" &&

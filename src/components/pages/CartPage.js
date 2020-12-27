@@ -1,8 +1,8 @@
 import React from "react";
 
-import CartContent from "../components/cart/cartContent";
-import CartTotal from "../components/cart/cartTotal";
-import CrossSells from "../components/cart/crossSells";
+import CartContent from "../cart/cartContent";
+import CartTotal from "../cart/cartTotal";
+import CrossSells from "../products/crossSells";
 
 const CartPage = (props) => {
   return (

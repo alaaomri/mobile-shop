@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Breadcrumb from "../components/breadcrumb";
-import Price from "../components/format/price";
-import { fetchProductDetails } from "../api";
-import SideBar from "../components/products/SideBar";
+import Breadcrumb from "../layout/breadcrumb";
+import Price from "../format/price";
+import { fetchProductDetails } from "../../api";
+import SideBar from "../products/SideBar";
 
 const ProductDetails = (props) => {
   const {
@@ -55,9 +55,9 @@ const ProductDetails = (props) => {
                       <img
                         src={
                           product.imageName
-                            ? require(`../assets/img/produts-img/${categoryName}/${product.imageName}`)
+                            ? require(`../../assets/img/produts-img/${categoryName}/${product.imageName}`)
                                 .default
-                            : require(`../assets/img/noImage.jpg`).default
+                            : require(`../../assets/img/noImage.jpg`).default
                         }
                         alt=""
                       />
@@ -67,27 +67,27 @@ const ProductDetails = (props) => {
                       <img
                         src={
                           product.imageName
-                            ? require(`../assets/img/produts-img/${categoryName}/${product.imageName}`)
+                            ? require(`../../assets/img/produts-img/${categoryName}/${product.imageName}`)
                                 .default
-                            : require(`../assets/img/noImage.jpg`).default
+                            : require(`../../assets/img/noImage.jpg`).default
                         }
                         alt=""
                       />
                       <img
                         src={
                           product.imageName
-                            ? require(`../assets/img/produts-img/${categoryName}/${product.imageName}`)
+                            ? require(`../../assets/img/produts-img/${categoryName}/${product.imageName}`)
                                 .default
-                            : require(`../assets/img/noImage.jpg`).default
+                            : require(`../../assets/img/noImage.jpg`).default
                         }
                         alt=""
                       />
                       <img
                         src={
                           product.imageName
-                            ? require(`../assets/img/produts-img/${categoryName}/${product.imageName}`)
+                            ? require(`../../assets/img/produts-img/${categoryName}/${product.imageName}`)
                                 .default
-                            : require(`../assets/img/noImage.jpg`).default
+                            : require(`../../assets/img/noImage.jpg`).default
                         }
                         alt=""
                       />
