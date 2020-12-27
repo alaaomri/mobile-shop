@@ -20,7 +20,7 @@ class App extends Component {
       id: "",
       total: 0,
       subTotal: 0,
-      tax: 20,
+      tax: 0,
       items: [],
     },
   };
@@ -58,6 +58,7 @@ class App extends Component {
 
     const entryIndex = cart.items.findIndex((item) => item.id === entryId);
 
+    //quantity === 0 means user remove the entry from cart
     if (quantity === 0) {
       cart.items[entryIndex].qty = 0;
       cart.items.splice(entryIndex, 1);
@@ -65,10 +66,11 @@ class App extends Component {
       cart.items[entryIndex].qty = quantity;
     }
 
-    const total = this.cartTotal(cart);
+    const total = this.cartTotal(cart) + 5;
 
-    cart.total = total;
-    cart.subTotal = 0.8 * total;
+    cart.total = total.toFixed(2);
+    cart.subTotal = (total - 5).toFixed(2);
+    cart.tax = (0.2 * total).toFixed(2);
     if (cartID != null) {
       this.setState({ cart });
     }
@@ -81,13 +83,14 @@ class App extends Component {
     this.setState({ cartLoading: true });
     const cartID = localStorage.getItem("cartID");
     if (cartID == null) {
+      // user don't have stored cart => we will create a new cart
       const cartId = Math.random().toString(36).substr(2, 10);
       localStorage.setItem("cartID", cartId);
       const cart = { ...this.state.cart };
       cart.id = cartId;
-      cart.total = product.price;
-      cart.subTotal = (0.8 * product.price).toFixed(2);
-      cart.tax = 20;
+      cart.total = product.price + 5;
+      cart.subTotal = product.price.toFixed(2);
+      cart.tax = (0.2 * cart.total).toFixed(2);
       const item = {
         id: product.id,
         name: product.name,
@@ -99,15 +102,19 @@ class App extends Component {
       this.setState({ cart });
       addNewCartData(cart);
     } else {
+      // user already have cart id => we will update his cart
       const cart = { ...this.state.cart };
       const entryIndex = cart.items.findIndex((item) => item.id === product.id);
       if (entryIndex > -1) {
+        // product already exist in cart => we will update quantity
         cart.items[entryIndex].qty = cart.items[entryIndex].qty + quantity;
         const total = this.cartTotal(cart);
 
-        cart.total = total;
-        cart.subTotal = (0.8 * total).toFixed(2);
+        cart.total = total.toFixed(2);
+        cart.subTotal = (total - 5).toFixed(2);
+        cart.tax = (0.2 * total).toFixed(2);
       } else {
+        // product doesn't exist in cart => we will create a new entry in cart
         const item = {
           id: product.id,
           name: product.name,
@@ -116,10 +123,10 @@ class App extends Component {
           qty: quantity,
         };
         cart.items.push(item);
-        const total = this.cartTotal(cart);
-
-        cart.total = total;
-        cart.subTotal = (0.8 * total).toFixed(2);
+        const total = this.cartTotal(cart) + 5;
+        cart.total = total.toFixed(2);
+        cart.subTotal = (total - 5).toFixed(2);
+        cart.tax = (0.2 * total).toFixed(2);
       }
       this.setState({ cart });
       modifyCartData(cartID, cart);

@@ -20,7 +20,7 @@ const ProductList = (props) => {
 
   return (
     <React.Fragment>
-      <Banner categoryName={props.category.name} />
+      <Banner title={props.category.name} />
       {loading ? (
         <Spinner />
       ) : (

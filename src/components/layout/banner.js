@@ -5,7 +5,7 @@ const banner = (props) => {
         <div className="row">
           <div className="col-md-12">
             <div className="product-bit-title text-center">
-              <h2> {props.categoryName} </h2>
+              <h2> {props.title} </h2>
             </div>
           </div>
         </div>

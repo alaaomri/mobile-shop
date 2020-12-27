@@ -35,7 +35,7 @@ const SearchPage = (props) => {
 
   return (
     <React.Fragment>
-      <Banner categoryName={`Résultats pour “${query[1]}”`} />
+      <Banner title={`Résultats pour “${query[1]}”`} />
       {loading ? (
         <Spinner />
       ) : products.length === 0 ? (
