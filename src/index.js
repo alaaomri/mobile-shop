@@ -8,7 +8,6 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import axios from "axios";
-import { BrowserRouter } from "react-router-dom";
 axios.interceptors.request.use(
   (req) => {
     return req;
@@ -30,9 +29,7 @@ axios.interceptors.response.use(
 );
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

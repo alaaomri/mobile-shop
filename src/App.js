@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter } from "react-router-dom";
 import {
   fetchCategories,
   fetchCartData,
@@ -8,7 +9,6 @@ import {
 import ErrorBloc from "./components/layout/errorBloc";
 import Footer from "./components/layout/footer";
 import Header from "./components/layout/header";
-import Spinner from "./components/layout/spinner";
 import Routes from "./routes/routes";
 
 class App extends Component {
@@ -134,12 +134,10 @@ class App extends Component {
   };
 
   render() {
-    return this.state.loding ? (
-      <Spinner />
-    ) : this.state.pageHasError ? (
+    return this.state.pageHasError ? (
       <ErrorBloc />
     ) : (
-      <React.Fragment>
+      <BrowserRouter>
         <Header categories={this.state.categories} cart={this.state.cart} />
         <Routes
           cartLoading={this.state.cartLoading}
@@ -149,7 +147,7 @@ class App extends Component {
           categories={this.state.categories}
         />
         <Footer categories={this.state.categories} />
-      </React.Fragment>
+      </BrowserRouter>
     );
   }
 }
