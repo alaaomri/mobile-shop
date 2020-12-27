@@ -3,6 +3,7 @@ import Breadcrumb from "../layout/breadcrumb";
 import Price from "../format/price";
 import { fetchProductDetails } from "../../api";
 import SideBar from "../products/SideBar";
+import { withRouter } from "react-router-dom";
 
 const ProductDetails = (props) => {
   const {
@@ -142,4 +143,4 @@ const ProductDetails = (props) => {
   );
 };
 
-export default ProductDetails;
+export default withRouter(ProductDetails);

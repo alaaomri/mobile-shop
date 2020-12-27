@@ -61,7 +61,11 @@ const cartContent = (props) => {
             </td>
 
             <td className="product-thumbnail">
-              <a href="single-product.html">
+              <Link
+                to={`/${imageDirectory(cartItem.imageName)}/${
+                  cartItem.id
+                }/${cartItem.name.replaceAll(" ", "_")}.html`}
+              >
                 <img
                   width="145"
                   height="145"
@@ -73,14 +77,14 @@ const cartContent = (props) => {
                     )}/${cartItem.imageName}`).default
                   }
                 />
-              </a>
+              </Link>
             </td>
 
             <td className="product-name">
               <Link
-                to={`${imageDirectory(cartItem.imageName)}/productDetails/${
+                to={`/${imageDirectory(cartItem.imageName)}/${
                   cartItem.id
-                }.html`}
+                }/${cartItem.name.replaceAll(" ", "_")}.html`}
               >
                 {cartItem.name}
               </Link>

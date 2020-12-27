@@ -14,25 +14,24 @@ const Router = (props) => {
   const { cart, changeQuantityHandler, addToCart, categories } = props;
   return (
     <React.Fragment>
-      <Header {...props} />
+      <Header categories={categories} cart={cart} />
 
       <Switch>
-        {props.categories.map((category) => (
+        {categories.map((category) => (
           <Route exact key={category.id} path={`/${category.name}.html`}>
             <ProductList
               cart={cart}
               category={category}
               addToCart={addToCart}
-              changeQuantityHandler={props.changeQuantityHandler}
+              changeQuantityHandler={changeQuantityHandler}
             />
           </Route>
         ))}
         <Route
           exact
           path="/:categoryName/:id/:productName.html"
-          render={(props) => (
+          render={() => (
             <ProductDetails
-              {...props}
               cart={cart}
               addToCart={addToCart}
               categories={categories}
@@ -45,7 +44,7 @@ const Router = (props) => {
           path="/cart.html"
           render={() => (
             <CartPage
-              changeQuantityHandler={props.changeQuantityHandler}
+              changeQuantityHandler={changeQuantityHandler}
               cart={cart}
             />
           )}
@@ -54,7 +53,7 @@ const Router = (props) => {
 
         <Route
           path="/search"
-          render={(props) => <SearchPage {...props} addToCart={addToCart} />}
+          render={() => <SearchPage addToCart={addToCart} />}
         />
         <Route path="/" exact render={() => <HomePage />} />
         <Route component={NotFound} />
@@ -64,4 +63,4 @@ const Router = (props) => {
   );
 };
 
-export default withRouter(Router);
+export default Router;

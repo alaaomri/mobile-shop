@@ -1,5 +1,6 @@
 import Menu from "./menu";
 import Branding from "../branding/branding";
+import { withRouter } from "react-router-dom";
 const header = (props) => {
   const isDisplay =
     props.location.pathname !== "/cart.html" &&
@@ -13,4 +14,4 @@ const header = (props) => {
   );
 };
 
-export default header;
+export default withRouter(header);

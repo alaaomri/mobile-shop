@@ -11,9 +11,6 @@ import Router from "./Routes/Router";
 class App extends Component {
   state = {
     categories: [],
-    loading: true,
-    searchResult: [],
-    isMenuDisplayed: true,
     cart: {
       id: "",
       total: 0,
@@ -27,7 +24,7 @@ class App extends Component {
     const cartID = localStorage.getItem("cartID");
 
     const data = await fetchCategories();
-    this.setState({ categories: data, loading: false });
+    this.setState({ categories: data });
     if (cartID != null) {
       const cartData = await fetchCartData(cartID);
       this.setState({ cart: cartData });

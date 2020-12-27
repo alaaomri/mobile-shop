@@ -35,17 +35,15 @@ const SingleProduct = (props) => {
         />
 
         <div className="product-option-shop">
-          <a
+          <button
             className="add_to_cart_button"
             data-quantity="1"
             data-product_sku=""
             data-product_id="70"
-            rel="nofollow"
-            href="#"
             onClick={() => props.addToCart(product, 1)}
           >
             Add to cart
-          </a>
+          </button>
         </div>
       </div>
     </div>

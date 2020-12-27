@@ -36,3 +36,8 @@ input[type="submit"].search-button{
     padding: 11px 20px;
     text-transform: uppercase;
 }
+
+.no-result{
+    padding: 3rem!important;
+
+}
