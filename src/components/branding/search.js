@@ -7,24 +7,19 @@ const Search = (props) => {
     setQuery(event.target.value);
   };
 
-  const searchProductsHandler = () => {
-    debugger;
-    if (query !== undefined && query !== "" && query !== null) {
-      window.location.href = "http://localhost:3000/search?q=" + query;
-      props.searchProducts(query);
-    }
-  };
-
   return props.isSearchDisplay ? (
     <div className="col-sm-4">
-      <input
-        type="text"
-        value={query}
-        style={{ marginTop: "30px" }}
-        placeholder="Search products..."
-        onChange={queryChangeHandler}
-      />
-      <input type="button" value="Search" onClick={searchProductsHandler} />
+      <form action="/search">
+        <input
+          type="text"
+          name="q"
+          value={query}
+          style={{ marginTop: "30px" }}
+          placeholder="Search products..."
+          onChange={queryChangeHandler}
+        />
+        <input type="submit" className="search-button" value="Search" />
+      </form>
     </div>
   ) : null;
 };

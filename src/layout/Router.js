@@ -54,7 +54,7 @@ const Router = (props) => {
 
         <Route
           path="/search"
-          render={() => <SearchPage searchResult={props.searchResult} />}
+          render={(props) => <SearchPage {...props} addToCart={addToCart} />}
         />
         <Route path="/" exact render={() => <HomePage />} />
         <Route component={NotFound} />

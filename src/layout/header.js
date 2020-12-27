@@ -7,11 +7,7 @@ const header = (props) => {
 
   return (
     <>
-      <Branding
-        cart={props.cart}
-        isSearchDisplay={isDisplay}
-        searchProducts={props.searchProducts}
-      />
+      <Branding cart={props.cart} isSearchDisplay={isDisplay} />
       {isDisplay ? <Menu categories={props.categories} /> : null}
     </>
   );

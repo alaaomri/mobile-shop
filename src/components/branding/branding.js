@@ -9,10 +9,7 @@ const Branding = (props) => {
       <div className="container">
         <div className="row">
           <Brand isSearchDisplay={props.isSearchDisplay} />
-          <Search
-            isSearchDisplay={props.isSearchDisplay}
-            searchProducts={props.searchProducts}
-          />
+          <Search isSearchDisplay={props.isSearchDisplay} />
 
           <CartSummary
             cart={props.cart}

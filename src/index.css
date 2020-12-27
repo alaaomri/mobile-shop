@@ -26,5 +26,13 @@ a.emtyCartBack{
 
 .img-notFound{
     width: 75%;
-    
+
+}
+
+input[type="submit"].search-button{
+    background: none repeat scroll 0 0 #5a88ca;
+    border: medium none;
+    color: #fff;
+    padding: 11px 20px;
+    text-transform: uppercase;
 }

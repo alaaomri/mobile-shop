@@ -4,7 +4,6 @@ import {
   fetchCartData,
   modifyCartData,
   addNewCartData,
-  searchProducts,
 } from "./api";
 
 import Router from "./layout/Router";
@@ -34,11 +33,6 @@ class App extends Component {
       this.setState({ cart: cartData });
     }
   }
-
-  searchProductsHandler = (query) => {
-    const data = searchProducts(query);
-    this.setState({ searchResult: data });
-  };
 
   changeCartQuantityHandler = (entryId, quantity) => {
     const cartID = localStorage.getItem("cartID");
@@ -134,8 +128,6 @@ class App extends Component {
     ) : (
       <div>
         <Router
-          searchProducts={this.searchProductsHandler}
-          searchResult={this.state.searchResult}
           addToCart={this.addToCart}
           changeQuantityHandler={this.changeCartQuantityHandler}
           cart={this.state.cart}
