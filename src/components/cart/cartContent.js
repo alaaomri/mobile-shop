@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import EmptyCart from "./emptyCart";
+import Spinner from "../layout/spinner";
 const cartContent = (props) => {
-  const { cart } = props;
+  const { cart, cartLoading } = props;
+
   const imageDirectory = (imageName) => {
     if (imageName.startsWith("apple")) return "Apple";
     if (imageName.startsWith("sony")) return "Sony";
@@ -13,11 +15,7 @@ const cartContent = (props) => {
 
   const changeQuantityForCart = (event, cartItem) => {
     const value = parseInt(event.target.value);
-    if (isNaN(value)) {
-      props.changeQuantityHandler(cartItem, value);
-    } else {
-      props.changeQuantityHandler(cartItem, value);
-    }
+    props.changeQuantityHandler(cartItem, value);
   };
 
   const changeQuantityByOne = (cartItem, operation) => {
@@ -34,7 +32,9 @@ const cartContent = (props) => {
     }
   };
 
-  return cart.items.length !== 0 ? (
+  return cartLoading ? (
+    <Spinner />
+  ) : cart.items.length !== 0 ? (
     <table cellSpacing="0" className="shop_table cart">
       <thead>
         <tr>
@@ -108,10 +108,14 @@ const cartContent = (props) => {
                   size="4"
                   className="input-text qty text"
                   title="Qty"
+                  defaultValue={cartItem.qty || 1}
                   value={cartItem.qty}
                   onChange={(event) =>
                     changeQuantityForCart(event, cartItem.id)
                   }
+                  onKeyDown={(event) => {
+                    event.preventDefault();
+                  }}
                   min="1"
                   step="1"
                 />

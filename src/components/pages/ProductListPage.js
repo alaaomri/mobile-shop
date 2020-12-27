@@ -3,19 +3,24 @@ import { fetchProducts } from "../../api";
 
 import SingleProduct from "../products/SinglePorduct";
 import Banner from "../layout/banner";
+import Spinner from "../layout/spinner";
 
 const ProductList = (props) => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       const data = await fetchProducts(props.category.productListId);
       setProducts(data.items);
+      setLoading(false);
     }
     fetchData();
   }, []);
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <React.Fragment>
       <Banner categoryName={props.category.name} />
       <div className="single-product-area">

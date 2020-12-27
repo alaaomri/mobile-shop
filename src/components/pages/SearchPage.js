@@ -4,6 +4,7 @@ import { searchProducts } from "../../api";
 import SingleProduct from "../products/SinglePorduct";
 import Banner from "../layout/banner";
 import { withRouter } from "react-router-dom";
+import Spinner from "../layout/spinner";
 
 const SearchPage = (props) => {
   const {
@@ -33,7 +34,7 @@ const SearchPage = (props) => {
   };
 
   return loading ? (
-    <p className="text-center">Fetching Data ...</p>
+    <Spinner />
   ) : (
     <React.Fragment>
       <Banner categoryName={`Résultats pour “${query[1]}”`} />

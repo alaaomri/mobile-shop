@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import CartPage from "../components/pages/CartPage";
+import CartPage from "../components/pages/cartPage";
 import CheckoutPage from "../components/pages/CheckoutPage";
 import HomePage from "../components/pages/homePage";
 import SearchPage from "../components/pages/SearchPage";
@@ -10,7 +10,13 @@ import ProductDetails from "../components/pages/ProductDetailsPage";
 import NotFound from "../components/pages/notFoundPage";
 
 const routes = (props) => {
-  const { cart, changeQuantityHandler, addToCart, categories } = props;
+  const {
+    cart,
+    changeQuantityHandler,
+    addToCart,
+    categories,
+    cartLoading,
+  } = props;
   return (
     <Switch>
       <Route path="/" exact render={() => <HomePage />} />
@@ -40,7 +46,11 @@ const routes = (props) => {
       <Route
         path="/cart.html"
         render={() => (
-          <CartPage changeQuantityHandler={changeQuantityHandler} cart={cart} />
+          <CartPage
+            changeQuantityHandler={changeQuantityHandler}
+            cartLoading={cartLoading}
+            cart={cart}
+          />
         )}
       />
       <Route path="/checkout.html" render={() => <CheckoutPage />} />

@@ -7,11 +7,13 @@ import {
 } from "./api";
 import Footer from "./components/layout/footer";
 import Header from "./components/layout/header";
+import Spinner from "./components/layout/spinner";
 import Routes from "./routes/routes";
 
 class App extends Component {
   state = {
     categories: [],
+    cartLoading: true,
     cart: {
       id: "",
       total: 0,
@@ -30,6 +32,7 @@ class App extends Component {
       const cartData = await fetchCartData(cartID);
       this.setState({ cart: cartData });
     }
+    this.setState({ cartLoading: false });
   }
 
   componentWillUnmount() {
@@ -37,6 +40,7 @@ class App extends Component {
   }
 
   changeCartQuantityHandler = (entryId, quantity) => {
+    this.setState({ cartLoading: true });
     const cartID = localStorage.getItem("cartID");
     const cart = { ...this.state.cart };
 
@@ -58,9 +62,11 @@ class App extends Component {
     }
 
     modifyCartData(cartID, cart);
+    this.setState({ cartLoading: false });
   };
 
   addToCart = (product, quantity) => {
+    this.setState({ cartLoading: true });
     const cartID = localStorage.getItem("cartID");
     if (cartID == null) {
       const cartId = Math.random().toString(36).substr(2, 10);
@@ -68,7 +74,7 @@ class App extends Component {
       const cart = { ...this.state.cart };
       cart.id = cartId;
       cart.total = product.price;
-      cart.subTotal = 0.8 * product.price;
+      cart.subTotal = (0.8 * product.price).toFixed(2);
       cart.tax = 20;
       const item = {
         id: product.id,
@@ -88,7 +94,7 @@ class App extends Component {
         const total = this.cartTotal(cart);
 
         cart.total = total;
-        cart.subTotal = 0.8 * total;
+        cart.subTotal = (0.8 * total).toFixed(2);
       } else {
         const item = {
           id: product.id,
@@ -101,11 +107,12 @@ class App extends Component {
         const total = this.cartTotal(cart);
 
         cart.total = total;
-        cart.subTotal = 0.8 * total;
+        cart.subTotal = (0.8 * total).toFixed(2);
       }
       this.setState({ cart });
       modifyCartData(cartID, cart);
     }
+    this.setState({ cartLoading: false });
   };
 
   cartTotal = (cart) => {
@@ -114,23 +121,14 @@ class App extends Component {
       .reduce((sum, current) => parseInt(sum + current), 0);
   };
 
-  loadingBloc = () => {
-    return (
-      <div class="text-center">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-    );
-  };
-
   render() {
     return this.state.loding ? (
-      this.loadingBloc
+      <Spinner />
     ) : (
       <React.Fragment>
         <Header categories={this.state.categories} cart={this.state.cart} />
         <Routes
+          cartLoading={this.state.cartLoading}
           addToCart={this.addToCart}
           changeQuantityHandler={this.changeCartQuantityHandler}
           cart={this.state.cart}

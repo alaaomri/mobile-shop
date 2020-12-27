@@ -4,6 +4,7 @@ import Price from "../format/price";
 import { fetchProductDetails } from "../../api";
 import SideBar from "../products/SideBar";
 import { withRouter } from "react-router-dom";
+import Spinner from "../layout/spinner";
 
 const ProductDetails = (props) => {
   const {
@@ -12,13 +13,16 @@ const ProductDetails = (props) => {
     },
     categories,
   } = props;
+
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProductInformations() {
       const data = await fetchProductDetails(id);
       setProduct(data);
+      setLoading(false);
     }
     fetchProductInformations();
   }, [quantity]);
@@ -33,7 +37,9 @@ const ProductDetails = (props) => {
     //setQuantity(1);
   };
 
-  return product !== {} ? (
+  return loading ? (
+    <Spinner />
+  ) : (
     <div className="single-product-area">
       <div className="zigzag-bottom"></div>
       <div className="container">
@@ -138,8 +144,6 @@ const ProductDetails = (props) => {
         </div>
       </div>
     </div>
-  ) : (
-    "loading ..."
   );
 };
 
