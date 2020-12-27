@@ -33,12 +33,12 @@ const SearchPage = (props) => {
     return "";
   };
 
-  return loading ? (
-    <Spinner />
-  ) : (
+  return (
     <React.Fragment>
       <Banner categoryName={`Résultats pour “${query[1]}”`} />
-      {products.length === 0 ? (
+      {loading ? (
+        <Spinner />
+      ) : products.length === 0 ? (
         <div className="container no-result">
           <h1>AUCUN RÉSULTAT POUR "{query[1]}"</h1>
           <div>

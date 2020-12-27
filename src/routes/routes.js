@@ -19,19 +19,7 @@ const routes = (props) => {
   } = props;
   return (
     <Switch>
-      <Route path="/" exact render={() => <HomePage />} />
-      {categories.map((category) => (
-        <Route key={category.id} path={`/${category.name}.html`}>
-          <ProductList
-            cart={cart}
-            category={category}
-            addToCart={addToCart}
-            changeQuantityHandler={changeQuantityHandler}
-          />
-        </Route>
-      ))}
       <Route
-        exact
         path="/:categoryName/:id/:productName.html"
         render={() => (
           <ProductDetails
@@ -42,6 +30,16 @@ const routes = (props) => {
           />
         )}
       />
+      {categories.map((category) => (
+        <Route key={category.id} path={`/${category.name}.html`}>
+          <ProductList
+            cart={cart}
+            category={category}
+            addToCart={addToCart}
+            changeQuantityHandler={changeQuantityHandler}
+          />
+        </Route>
+      ))}
 
       <Route
         path="/cart.html"
@@ -59,7 +57,7 @@ const routes = (props) => {
         path="/search"
         render={() => <SearchPage addToCart={addToCart} />}
       />
-
+      <Route exact path="/" render={() => <HomePage />} />
       <Route component={NotFound} />
     </Switch>
   );
