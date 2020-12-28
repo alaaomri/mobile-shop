@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import Banner from "../layout/Banner";
 import AddressForms from "../forms/AddressForms";
+import OrderReview from "../order/OrederReview";
+
 class CheckoutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       order: {
-        orderDetails: {},
+        orderDetails: props.cart,
         customerInfos: {},
+        paymentMethod: "bacs",
       },
       customer: {
         email: "",
@@ -17,17 +20,7 @@ class CheckoutPage extends Component {
         shippingAddress: {},
       },
       billingAddress: {
-        civility: "",
-        firstName: "Alla",
-        lastName: "",
-        zipCode: "",
-        street: "",
-        companyName: "",
-        county: "",
-        city: "",
-      },
-      shippingAddress: {
-        civility: "",
+        civility: "Mr",
         firstName: "",
         lastName: "",
         zipCode: "",
@@ -35,8 +28,19 @@ class CheckoutPage extends Component {
         companyName: "",
         county: "",
         city: "",
+        apartment: "",
       },
-      paymentMethod: "",
+      shippingAddress: {
+        civility: "Mr",
+        firstName: "",
+        lastName: "",
+        zipCode: "",
+        street: "",
+        companyName: "",
+        county: "",
+        city: "",
+        apartment: "",
+      },
     };
   }
 
@@ -54,8 +58,11 @@ class CheckoutPage extends Component {
     this.setState({ order });
   }
 
+  handleSubmit = () => {
+    console.log("submitted");
+  };
+
   handleInfosChange = (name, value, targetState) => {
-    console.log(this.state, "before", value);
     if (targetState === "billingAddress") {
       if (name === "email" || name === "phone" || name === "note") {
         const customer = this.state.customer;
@@ -67,10 +74,15 @@ class CheckoutPage extends Component {
         billingAddress[name] = value;
         this.setState({ billingAddress });
       }
-    } else {
+    } else if (targetState === "shippingAddress") {
       const shippingAddress = this.state.shippingAddress;
       shippingAddress[name] = value;
       this.setState({ shippingAddress });
+    } else {
+      debugger;
+      const order = this.state.order;
+      order.paymentMethod = value;
+      this.setState({ order });
     }
 
     /*********** */
@@ -82,7 +94,6 @@ class CheckoutPage extends Component {
     customer.shippingAddress = this.state.shippingAddress;
     customer.paymentMethod = this.state.paymentMethod;
     this.setState({ customer });
-    console.log(this.state, "after", value);
     order.orderDetails = this.props.cart;
     order.customerInfos = customer;
     this.setState({ order });
@@ -100,7 +111,7 @@ class CheckoutPage extends Component {
                 <div className="product-content-right">
                   <div className="woocommerce"></div>
                   <form
-                    enctype="multipart/form-data"
+                    encType="multipart/form-data"
                     action="#"
                     className="checkout"
                     method="post"
@@ -112,7 +123,11 @@ class CheckoutPage extends Component {
                         customer={this.state.customer}
                       />
                     </div>
-                    <h3 id="order_review_heading">Your order</h3>
+                    <OrderReview
+                      order={this.props.cart}
+                      change={this.handleInfosChange}
+                      submit={this.handleSubmit}
+                    />
                   </form>
                 </div>
               </div>
