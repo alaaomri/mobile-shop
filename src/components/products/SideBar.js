@@ -25,7 +25,7 @@ const SideBar = (props) => {
     <>
       <div className="single-sidebar">
         <h2 className="sidebar-title">Recently Viewed</h2>
-        {recentlyViewed.map((product) => (
+        {recentlyViewed.slice(1, 5).map((product) => (
           <div key={product.id} className="thubmnail-recent">
             <img
               src={

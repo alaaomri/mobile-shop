@@ -83,7 +83,7 @@ class App extends Component {
         (x, y) => (x.findIndex((e) => e.id === y.id) < 0 ? [...x, y] : x),
         []
       )
-      .splice(0, 4);
+      .splice(0, 5);
 
     console.log(recentlyViewed, "setted");
     cookies.set(RECENT_VIEWED_COOKIE_NAME, recentlyViewed, {
