@@ -3,13 +3,13 @@ import Carousel from "../layout/carousel";
 import ProductWidgets from "../products/productWidgets";
 import PromotionArea from "../layout/promotion";
 
-const homePage = () => {
+const homePage = (props) => {
   return (
     <>
       <Carousel />
       <PromotionArea />
       <BrandsArea />
-      <ProductWidgets />
+      <ProductWidgets recentlyViewed={props.recentlyViewed} />
     </>
   );
 };

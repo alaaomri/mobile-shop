@@ -12,6 +12,7 @@ const ProductDetails = (props) => {
       params: { id, categoryName },
     },
     categories,
+    recentlyViewed,
   } = props;
 
   const [product, setProduct] = useState({});
@@ -21,6 +22,7 @@ const ProductDetails = (props) => {
   useEffect(() => {
     async function fetchProductInformations() {
       const data = await fetchProductDetails(id);
+      props.recentViewedChange(data);
       setProduct(data);
       setLoading(false);
     }
@@ -45,7 +47,11 @@ const ProductDetails = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-md-4">
-            <SideBar categories={categories} currentCategory={categoryName} />
+            <SideBar
+              categories={categories}
+              currentCategory={categoryName}
+              recentlyViewed={recentlyViewed}
+            />
           </div>
 
           <div className="col-md-8">
@@ -110,7 +116,7 @@ const ProductDetails = (props) => {
                       discount={product.discountRate}
                       price={product.price}
                     />
-                    <form className="cart">
+                    <div className="cart">
                       <div className="quantity">
                         <input
                           type="number"
@@ -130,7 +136,7 @@ const ProductDetails = (props) => {
                         value="Add to cart"
                         onClick={() => addTocartHandler(product)}
                       />
-                    </form>
+                    </div>
 
                     <div className="product-inner-category">
                       <h2>Product Description</h2>

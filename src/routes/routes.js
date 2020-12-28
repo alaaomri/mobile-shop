@@ -23,6 +23,8 @@ const routes = (props) => {
         path="/:categoryName/:id/:productName.html"
         render={() => (
           <ProductDetails
+            recentlyViewed={props.recentlyViewed}
+            recentViewedChange={props.recentViewedChange}
             cart={cart}
             addToCart={addToCart}
             categories={categories}
@@ -57,7 +59,11 @@ const routes = (props) => {
         path="/search"
         render={() => <SearchPage addToCart={addToCart} />}
       />
-      <Route exact path="/" render={() => <HomePage />} />
+      <Route
+        exact
+        path="/"
+        render={() => <HomePage recentlyViewed={props.recentlyViewed} />}
+      />
       <Route component={NotFound} />
     </Switch>
   );

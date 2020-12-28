@@ -8,6 +8,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import axios from "axios";
+import { CookiesProvider } from "react-cookie";
+
 axios.interceptors.request.use(
   (req) => {
     return req;
@@ -29,7 +31,9 @@ axios.interceptors.response.use(
 );
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

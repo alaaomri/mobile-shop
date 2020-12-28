@@ -10,7 +10,7 @@ const footer = (props) => {
           <div className="col-md-4 col-sm-6">
             <div className="footer-about-us">
               <h2>
-                <span>MyStore</span>
+                <span>{process.env.REACT_APP_WEBSITE_NAME}</span>
               </h2>
               <p>
                 SES Lorem ipsum dolor sit amet, consectetur adipisicing elit.

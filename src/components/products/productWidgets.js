@@ -9,7 +9,7 @@ const productWidgets = (props) => {
       <div className="container">
         <div className="row">
           <TopProducts title="Top Sellers" url="top-sellers-products" />
-          <RecentlyViewed />
+          <RecentlyViewed recentlyViewed={props.recentlyViewed} />
           <TopProducts title="Top New" url="top-new-products" />
         </div>
       </div>

@@ -10,22 +10,41 @@ import ErrorBloc from "./components/layout/errorBloc";
 import Footer from "./components/layout/footer";
 import Header from "./components/layout/header";
 import Routes from "./routes/routes";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
+const RECENT_VIEWED_COOKIE_NAME = "recentViewed";
 class App extends Component {
-  state = {
-    categories: [],
-    cartLoading: true,
-    pageHasError: false,
-    cart: {
-      id: "",
-      total: 0,
-      subTotal: 0,
-      tax: 0,
-      items: [],
-    },
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      recentlyViewed: [],
+      categories: [],
+      cartLoading: true,
+      pageHasError: false,
+
+      cart: {
+        id: "",
+        total: 0.0,
+        subTotal: 0.0,
+        tax: 0.0,
+        items: [],
+      },
+    };
+  }
+
   async componentDidMount() {
+    // preparing recent view
+    const { cookies } = this.props;
+    const recentlyViewed = cookies.get(RECENT_VIEWED_COOKIE_NAME) || [];
+    this.setState({ recentlyViewed });
+
+    //preparing cart
     const cartID = localStorage.getItem("cartID");
     await fetchCategories()
       .then((categories) => {
@@ -51,6 +70,28 @@ class App extends Component {
     //localStorage.removeItem("cartID");
   }
 
+  recentViewedChangeHandler = (product) => {
+    const { cookies } = this.props;
+    const newProduct = { ...product };
+    newProduct.description = "";
+    let recentViewed = [...this.state.recentlyViewed];
+
+    recentViewed.unshift(newProduct);
+
+    const recentlyViewed = recentViewed
+      .reduce(
+        (x, y) => (x.findIndex((e) => e.id === y.id) < 0 ? [...x, y] : x),
+        []
+      )
+      .splice(0, 4);
+
+    console.log(recentlyViewed, "setted");
+    cookies.set(RECENT_VIEWED_COOKIE_NAME, recentlyViewed, {
+      path: "/",
+    });
+    this.setState({ recentlyViewed });
+  };
+
   changeCartQuantityHandler = (entryId, quantity) => {
     this.setState({ cartLoading: true });
     const cartID = localStorage.getItem("cartID");
@@ -66,10 +107,10 @@ class App extends Component {
       cart.items[entryIndex].qty = quantity;
     }
 
-    const total = this.cartTotal(cart) + 5;
+    const total = this.cartTotal(cart) !== 0 ? this.cartTotal(cart) + 5 : 0;
 
     cart.total = total.toFixed(2);
-    cart.subTotal = (total - 5).toFixed(2);
+    cart.subTotal = (total !== 0 ? total - 5 : total).toFixed(2);
     cart.tax = (0.2 * total).toFixed(2);
     if (cartID != null) {
       this.setState({ cart });
@@ -88,7 +129,7 @@ class App extends Component {
       localStorage.setItem("cartID", cartId);
       const cart = { ...this.state.cart };
       cart.id = cartId;
-      cart.total = product.price + 5;
+      cart.total = (product.price + 5).toFixed(2);
       cart.subTotal = product.price.toFixed(2);
       cart.tax = (0.2 * cart.total).toFixed(2);
       const item = {
@@ -147,6 +188,8 @@ class App extends Component {
       <BrowserRouter>
         <Header categories={this.state.categories} cart={this.state.cart} />
         <Routes
+          recentlyViewed={this.state.recentlyViewed}
+          recentViewedChange={this.recentViewedChangeHandler}
           cartLoading={this.state.cartLoading}
           addToCart={this.addToCart}
           changeQuantityHandler={this.changeCartQuantityHandler}
@@ -159,4 +202,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withCookies(App);

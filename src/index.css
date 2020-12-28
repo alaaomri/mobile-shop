@@ -41,3 +41,8 @@ input[type="submit"].search-button{
     padding: 3rem!important;
 
 }
+
+
+div.cart {
+    margin-bottom: 25px;
+}
