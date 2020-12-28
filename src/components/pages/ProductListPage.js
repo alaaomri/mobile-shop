@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { fetchProducts } from "../../api";
 
 import SingleProduct from "../products/SinglePorduct";
-import Banner from "../layout/banner";
-import Spinner from "../layout/spinner";
+import Banner from "../layout/Banner";
+import Spinner from "../layout/Spinner";
 
 const ProductList = (props) => {
   const [products, setProducts] = useState([]);

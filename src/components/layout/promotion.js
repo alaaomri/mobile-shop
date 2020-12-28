@@ -1,4 +1,4 @@
-import SinglePromo from "./singlePromo";
+import SinglePromo from "./SinglePromo";
 
 const promotionArea = (props) => {
   return (

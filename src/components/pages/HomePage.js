@@ -1,7 +1,7 @@
-import BrandsArea from "../layout/brandsArea";
-import Carousel from "../layout/carousel";
-import ProductWidgets from "../products/productWidgets";
-import PromotionArea from "../layout/promotion";
+import BrandsArea from "../layout/BrandsArea";
+import Carousel from "../layout/Carousel";
+import ProductWidgets from "../products/ProductWidgets";
+import PromotionArea from "../layout/Promotion";
 
 const homePage = (props) => {
   return (
@@ -9,7 +9,11 @@ const homePage = (props) => {
       <Carousel />
       <PromotionArea />
       <BrandsArea />
-      <ProductWidgets recentlyViewed={props.recentlyViewed} />
+      <ProductWidgets
+        recentlyViewed={props.recentlyViewed}
+        topNew={props.topNew}
+        topSellers={props.topSellers}
+      />
     </>
   );
 };

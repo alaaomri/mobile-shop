@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Breadcrumb from "../layout/breadcrumb";
-import Price from "../format/price";
+import Breadcrumb from "../layout/Breadcrumb";
+import Price from "../format/Price";
 import { fetchProductDetails } from "../../api";
 import SideBar from "../products/SideBar";
 import { withRouter } from "react-router-dom";
-import Spinner from "../layout/spinner";
+import Spinner from "../layout/Spinner";
 
 const ProductDetails = (props) => {
   const {

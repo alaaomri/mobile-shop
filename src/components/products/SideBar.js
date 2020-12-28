@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import OtherBrands from "../branding/otherBrands";
-import Price from "../format/price";
+import OtherBrands from "../branding/OtherBrands";
+import Price from "../format/Price";
 
 const SideBar = (props) => {
   const [otherBrands, setOtherBrands] = useState([]);

@@ -5,11 +5,12 @@ import {
   fetchCartData,
   modifyCartData,
   addNewCartData,
+  fetchTopProducts,
 } from "./api";
-import ErrorBloc from "./components/layout/errorBloc";
-import Footer from "./components/layout/footer";
-import Header from "./components/layout/header";
-import Routes from "./routes/routes";
+import ErrorBloc from "./components/layout/ErrorBloc";
+import Footer from "./components/layout/Footer";
+import Header from "./components/layout/Header";
+import Routes from "./routes/Routes";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 
@@ -23,6 +24,8 @@ class App extends Component {
     super(props);
 
     this.state = {
+      topSellers: [],
+      topNew: [],
       recentlyViewed: [],
       categories: [],
       cartLoading: true,
@@ -39,13 +42,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    // preparing recent view
-    const { cookies } = this.props;
-    const recentlyViewed = cookies.get(RECENT_VIEWED_COOKIE_NAME) || [];
-    this.setState({ recentlyViewed });
-
-    //preparing cart
-    const cartID = localStorage.getItem("cartID");
     await fetchCategories()
       .then((categories) => {
         this.setState({ categories });
@@ -53,6 +49,14 @@ class App extends Component {
       .catch(() => {
         this.setState({ pageHasError: true });
       });
+
+    // preparing recent view
+    const { cookies } = this.props;
+    const recentlyViewed = cookies.get(RECENT_VIEWED_COOKIE_NAME) || [];
+    this.setState({ recentlyViewed });
+
+    //preparing cart
+    const cartID = localStorage.getItem("cartID");
 
     if (cartID != null) {
       await fetchCartData(cartID)
@@ -63,6 +67,21 @@ class App extends Component {
           this.setState({ pageHasError: true });
         });
     }
+    await fetchTopProducts("top-sellers-products")
+      .then((topSellers) => {
+        this.setState({ topSellers });
+      })
+      .catch(() => {
+        this.setState({ pageHasError: true });
+      });
+    await fetchTopProducts("top-new-products")
+      .then((topNew) => {
+        this.setState({ topNew });
+      })
+      .catch(() => {
+        this.setState({ pageHasError: true });
+      });
+
     this.setState({ cartLoading: false });
   }
 
@@ -189,6 +208,8 @@ class App extends Component {
         <Header categories={this.state.categories} cart={this.state.cart} />
         <Routes
           recentlyViewed={this.state.recentlyViewed}
+          topNew={this.state.topNew}
+          topSellers={this.state.topSellers}
           recentViewedChange={this.recentViewedChangeHandler}
           cartLoading={this.state.cartLoading}
           addToCart={this.addToCart}

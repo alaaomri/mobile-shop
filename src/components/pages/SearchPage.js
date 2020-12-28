@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import { searchProducts } from "../../api";
 import SingleProduct from "../products/SinglePorduct";
-import Banner from "../layout/banner";
+import Banner from "../layout/Banner";
 import { withRouter } from "react-router-dom";
-import Spinner from "../layout/spinner";
+import Spinner from "../layout/Spinner";
 
 const SearchPage = (props) => {
   const {

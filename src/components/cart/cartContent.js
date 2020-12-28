@@ -1,6 +1,6 @@
 import { Link, withRouter } from "react-router-dom";
-import EmptyCart from "./emptyCart";
-import Spinner from "../layout/spinner";
+import EmptyCart from "./EmptyCart";
+import Spinner from "../layout/Spinner";
 const cartContent = (props) => {
   const { cart, cartLoading } = props;
 

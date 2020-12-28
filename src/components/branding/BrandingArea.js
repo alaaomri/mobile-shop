@@ -1,7 +1,7 @@
 import React from "react";
 import CartSummary from "../cart/CartSummary";
-import Brand from "./brand";
-import Search from "./search";
+import Brand from "./Brand";
+import Search from "./SearchBox";
 
 const Branding = (props) => {
   return (

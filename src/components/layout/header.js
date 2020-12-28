@@ -1,5 +1,5 @@
-import Menu from "./menu";
-import Branding from "../branding/branding";
+import Menu from "./Menu";
+import Branding from "../branding/BrandingArea";
 import { withRouter } from "react-router-dom";
 const header = (props) => {
   const isDisplay =

@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import CartPage from "../components/pages/cartPage";
+import CartPage from "../components/pages/CartPage";
 import CheckoutPage from "../components/pages/CheckoutPage";
-import HomePage from "../components/pages/homePage";
+import HomePage from "../components/pages/HomePage";
 import SearchPage from "../components/pages/SearchPage";
 import ProductList from "../components/pages/ProductListPage";
 import ProductDetails from "../components/pages/ProductDetailsPage";
-import NotFound from "../components/pages/notFoundPage";
+import NotFound from "../components/pages/NotFoundPage";
 
 const routes = (props) => {
   const {
@@ -53,7 +53,10 @@ const routes = (props) => {
           />
         )}
       />
-      <Route path="/checkout.html" render={() => <CheckoutPage />} />
+      <Route
+        path="/checkout.html"
+        render={() => <CheckoutPage cart={cart} />}
+      />
 
       <Route
         path="/search"
@@ -62,7 +65,13 @@ const routes = (props) => {
       <Route
         exact
         path="/"
-        render={() => <HomePage recentlyViewed={props.recentlyViewed} />}
+        render={() => (
+          <HomePage
+            recentlyViewed={props.recentlyViewed}
+            topNew={props.topNew}
+            topSellers={props.topSellers}
+          />
+        )}
       />
       <Route component={NotFound} />
     </Switch>
