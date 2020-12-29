@@ -41,8 +41,8 @@ class App extends Component {
     };
   }
 
-  async componentDidMount() {
-    await fetchCategories()
+  componentDidMount() {
+    fetchCategories()
       .then((categories) => {
         this.setState({ categories });
       })
@@ -59,7 +59,7 @@ class App extends Component {
     const cartID = localStorage.getItem("cartID");
 
     if (cartID != null) {
-      await fetchCartData(cartID)
+      fetchCartData(cartID)
         .then((cart) => {
           this.setState({ cart });
         })
@@ -67,14 +67,14 @@ class App extends Component {
           this.setState({ pageHasError: true });
         });
     }
-    await fetchTopProducts("top-sellers-products")
+    fetchTopProducts("top-sellers-products")
       .then((topSellers) => {
         this.setState({ topSellers });
       })
       .catch(() => {
         this.setState({ pageHasError: true });
       });
-    await fetchTopProducts("top-new-products")
+    fetchTopProducts("top-new-products")
       .then((topNew) => {
         this.setState({ topNew });
       })
@@ -83,10 +83,6 @@ class App extends Component {
       });
 
     this.setState({ cartLoading: false });
-  }
-
-  componentWillUnmount() {
-    //localStorage.removeItem("cartID");
   }
 
   recentViewedChangeHandler = (product) => {

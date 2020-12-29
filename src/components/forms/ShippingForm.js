@@ -1,7 +1,12 @@
-const shippingForm = ({ customer: { shippingAddress }, change, role }) => {
+const shippingForm = ({
+  customer: { shippingAddress },
+  change,
+  role,
+  handleUseOtherAddress,
+  useOtherAddress,
+}) => {
   const onChangeHandler = (event, name) => {
     const value = event.target.value;
-    console.log(value);
     change(name, value, role);
   };
 
@@ -19,9 +24,10 @@ const shippingForm = ({ customer: { shippingAddress }, change, role }) => {
             type="checkbox"
             value="1"
             name="ship_to_different_address"
-            checked="checked"
+            checked={useOtherAddress}
             className="input-checkbox"
             id="ship-to-different-address-checkbox"
+            onChange={handleUseOtherAddress}
           />
         </h3>
         <div className="shipping_address" style={{ display: "block" }}>
@@ -147,7 +153,7 @@ const shippingForm = ({ customer: { shippingAddress }, change, role }) => {
             data-o_class="form-row form-row-wide address-field validate-required"
           >
             <label className="" htmlFor="shipping_city">
-              Town / City{" "}
+              Town / City
               <abbr title="required" className="required">
                 *
               </abbr>

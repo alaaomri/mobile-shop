@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-const PaymentMode = ({ change, submit }) => {
+const PaymentMode = ({ change, submit, order }) => {
   const [selected, setSelected] = useState("bacs");
+  const [canPlaceOrder, setCanPlaceOrder] = useState(false);
 
+  const checkSubmit = useRef(() => {});
+
+  checkSubmit.current = () => {
+    const disbled = order.tatal > 5;
+    setCanPlaceOrder(disbled);
+  };
+
+  useEffect(() => {
+    const disbled = order.tatal > 5;
+    setCanPlaceOrder(disbled);
+  }, []);
   const onChangeHandler = (event, name) => {
     const value = event.target.value;
     setSelected(value);
-    console.log(value);
     change(name, value, "paymentMethod");
   };
   return (
@@ -68,7 +79,7 @@ const PaymentMode = ({ change, submit }) => {
             onChange={(event) => onChangeHandler(event, "paymentMethod")}
           />
           <label htmlFor="payment_method_paypal">
-            &nbsp;PayPal
+            &nbsp;PayPal &nbsp;
             <img
               alt="PayPal Acceptance Mark"
               src="https://www.paypalobjects.com/webstatic/mktg/Logo/AM_mc_vs_ms_ae_UK.png"
@@ -76,7 +87,7 @@ const PaymentMode = ({ change, submit }) => {
             <a
               title="What is PayPal?"
               onClick={() => {
-                javascript: window.open(
+                window.open(
                   "https://www.paypal.com/gb/webapps/mpp/paypal-popup",
                   "WIPaypal",
                   "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700"
@@ -109,7 +120,8 @@ const PaymentMode = ({ change, submit }) => {
           value="Place order"
           id="place_order"
           name="woocommerce_checkout_place_order"
-          className="button alt"
+          className="button alt disabled"
+          disabled={canPlaceOrder}
           onClick={submit}
         />
       </div>

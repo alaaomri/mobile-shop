@@ -13,6 +13,8 @@ const addressForm = (props) => {
         change={props.change}
         customer={props.customer}
         role="shippingAddress"
+        handleUseOtherAddress={props.handleUseOtherAddress}
+        useOtherAddress={props.useOtherAddress}
       />
     </div>
   );

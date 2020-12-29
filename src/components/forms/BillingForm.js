@@ -5,7 +5,6 @@ const billingForm = ({
 }) => {
   const onChangeHandler = (event, name) => {
     const value = event.target.value;
-    console.log(value);
     change(name, value, role);
   };
 

@@ -2,14 +2,20 @@ import React, { Component } from "react";
 import Banner from "../layout/Banner";
 import AddressForms from "../forms/AddressForms";
 import OrderReview from "../order/OrederReview";
+import { placeOrder } from "../../api";
+import { Redirect } from "react-router-dom";
 
 class CheckoutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       order: {
-        orderDetails: props.cart,
-        customerInfos: {},
+        id: props.cart.id,
+        total: props.cart.total,
+        subTotal: props.cart.subTotal,
+        tax: props.cart.tax,
+        items: props.cart.items,
+        customer: {},
         paymentMethod: "bacs",
       },
       customer: {
@@ -41,25 +47,31 @@ class CheckoutPage extends Component {
         city: "",
         apartment: "",
       },
+      useOtherAddress: false,
+      oderSubmitted: false,
     };
   }
 
   componentDidMount() {
-    const order = this.state.order;
-    const customer = this.state.customer;
-    //const billingAddress = this.state.billingAddress ;
-    //const shippingAddress =this.state.shippingAddress ;
+    const { order, customer } = this.state;
     customer.billingAddress = this.state.billingAddress;
     customer.shippingAddress = this.state.shippingAddress;
-    customer.paymentMethod = this.state.paymentMethod;
     this.setState({ customer });
-    order.orderDetails = this.props.cart;
-    order.customerInfos = customer;
+    order.customer = customer;
     this.setState({ order });
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     console.log("submitted");
+    debugger;
+    const id = localStorage.getItem("cartID");
+    await placeOrder(this.state.order, id)
+      .then((res) => {
+        localStorage.removeItem("cartID");
+        this.setState({ oderSubmitted: true });
+        //this.props.history.push("/");
+      })
+      .catch((err) => console.error(err));
   };
 
   handleInfosChange = (name, value, targetState) => {
@@ -74,33 +86,42 @@ class CheckoutPage extends Component {
         billingAddress[name] = value;
         this.setState({ billingAddress });
       }
-    } else if (targetState === "shippingAddress") {
+    } else if (
+      this.state.useOtherAddress &&
+      targetState === "shippingAddress"
+    ) {
       const shippingAddress = this.state.shippingAddress;
       shippingAddress[name] = value;
       this.setState({ shippingAddress });
     } else {
-      debugger;
       const order = this.state.order;
       order.paymentMethod = value;
       this.setState({ order });
     }
 
     /*********** */
-    const order = this.state.order;
-    const customer = this.state.customer;
-    //const billingAddress = this.state.billingAddress ;
-    //const shippingAddress =this.state.shippingAddress ;
+    const { order, customer } = this.state;
     customer.billingAddress = this.state.billingAddress;
     customer.shippingAddress = this.state.shippingAddress;
-    customer.paymentMethod = this.state.paymentMethod;
     this.setState({ customer });
-    order.orderDetails = this.props.cart;
-    order.customerInfos = customer;
+    order.customer = customer;
     this.setState({ order });
   };
 
+  componentWillUnmount() {}
+
+  handleUseOtherAddress = () => {
+    this.setState((prevState) => {
+      return {
+        useOtherAddress: !prevState.useOtherAddress,
+      };
+    });
+  };
+
   render() {
-    return (
+    return this.state.oderSubmitted ? (
+      <Redirect to="/" />
+    ) : (
       <React.Fragment>
         <Banner title="Checkout" />
         <div className="single-product-area">
@@ -121,6 +142,8 @@ class CheckoutPage extends Component {
                       <AddressForms
                         change={this.handleInfosChange}
                         customer={this.state.customer}
+                        handleUseOtherAddress={this.handleUseOtherAddress}
+                        useOtherAddress={this.state.useOtherAddress}
                       />
                     </div>
                     <OrderReview

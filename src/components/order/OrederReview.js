@@ -45,7 +45,7 @@ const orderReview = ({ order, change, submit }) => {
             </tr>
           </tfoot>
         </table>
-        <PaymentMode change={change} submit={submit} />
+        <PaymentMode order={order} change={change} submit={submit} />
       </div>
     </React.Fragment>
   );

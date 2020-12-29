@@ -47,3 +47,21 @@ export const addNewCartData = async (cart) => {
   const { data } = await axios.post(`${BASE_URL}/carts`, cart);
   return data;
 };
+
+export const deleteCart = async (cartId) => {
+  const data = await axios
+    .delete(`${BASE_URL}/carts/${cartId}`)
+    .then((response) => response.data)
+    .catch((err) => Promise.reject(err));
+  return data;
+};
+
+export const placeOrder = async (order, cartId) => {
+  const data = await axios
+    .post(`${BASE_URL}/orders`, order)
+    .then((res) => {
+      deleteCart(cartId);
+    })
+    .catch((err) => Promise.reject(err));
+  return data;
+};
