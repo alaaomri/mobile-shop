@@ -100,7 +100,6 @@ class App extends Component {
       )
       .splice(0, 5);
 
-    console.log(recentlyViewed, "setted");
     cookies.set(RECENT_VIEWED_COOKIE_NAME, recentlyViewed, {
       path: "/",
     });
@@ -144,7 +143,7 @@ class App extends Component {
       localStorage.setItem("cartID", cartId);
       const cart = { ...this.state.cart };
       cart.id = cartId;
-      cart.total = (product.price + 5).toFixed(2);
+      cart.total = (product.price * quantity + 5).toFixed(2);
       cart.subTotal = product.price.toFixed(2);
       cart.tax = (0.2 * cart.total).toFixed(2);
       const item = {

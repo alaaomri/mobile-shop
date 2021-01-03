@@ -27,7 +27,7 @@ const ProductDetails = (props) => {
       setLoading(false);
     }
     fetchProductInformations();
-  }, [quantity]);
+  }, []);
 
   const changeQuantityHandler = (event) => {
     const value = parseInt(event.target.value);
