@@ -1,20 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 
 const PaymentMode = ({ change, submit, order }) => {
   const [selected, setSelected] = useState("bacs");
   const [canPlaceOrder, setCanPlaceOrder] = useState(false);
 
-  const checkSubmit = useRef(() => {});
-
-  checkSubmit.current = () => {
-    const disbled = order.tatal > 5;
-    setCanPlaceOrder(disbled);
-  };
-
-  useEffect(() => {
-    const disbled = order.tatal > 5;
-    setCanPlaceOrder(disbled);
-  }, []);
   const onChangeHandler = (event, name) => {
     const value = event.target.value;
     setSelected(value);

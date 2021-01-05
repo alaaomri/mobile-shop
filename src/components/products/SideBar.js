@@ -22,7 +22,7 @@ const SideBar = (props) => {
     return "";
   };
   return (
-    <>
+    <React.Fragment>
       <div className="single-sidebar">
         <h2 className="sidebar-title">Recently Viewed</h2>
         {recentlyViewed.slice(1, 5).map((product) => (
@@ -57,7 +57,7 @@ const SideBar = (props) => {
         ))}
       </div>
       <OtherBrands otherBrands={otherBrands} />
-    </>
+    </React.Fragment>
   );
 };
 

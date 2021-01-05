@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Breadcrumb from "../layout/Breadcrumb";
 import Price from "../format/Price";
 import { fetchProductDetails } from "../../api";
@@ -19,14 +19,17 @@ const ProductDetails = (props) => {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  const fetchProductInformationsRef = useRef(() => {});
+
+  fetchProductInformationsRef.current = async () => {
+    const data = await fetchProductDetails(id);
+    props.recentViewedChange(data);
+    setProduct(data);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    async function fetchProductInformations() {
-      const data = await fetchProductDetails(id);
-      props.recentViewedChange(data);
-      setProduct(data);
-      setLoading(false);
-    }
-    fetchProductInformations();
+    fetchProductInformationsRef.current();
   }, []);
 
   const changeQuantityHandler = (event) => {

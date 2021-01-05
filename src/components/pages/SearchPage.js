@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { searchProducts } from "../../api";
 import SingleProduct from "../products/SinglePorduct";
@@ -14,14 +14,18 @@ const SearchPage = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const query = search.split("?q=");
-  useEffect(() => {
-    const getSearchResult = async () => {
-      const data = await searchProducts(query[1]);
 
-      setProducts(data);
-      setLoading(false);
-    };
-    getSearchResult();
+  const searchResultRef = useRef(() => {});
+
+  searchResultRef.current = async () => {
+    const data = await searchProducts(query[1]);
+
+    setProducts(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    searchResultRef.current();
   }, []);
 
   const productCategory = (productName) => {

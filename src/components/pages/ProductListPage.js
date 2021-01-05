@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchProducts } from "../../api";
 
 import SingleProduct from "../products/SinglePorduct";
@@ -9,13 +9,16 @@ const ProductList = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchDataRef = useRef(() => {});
+
+  fetchDataRef.current = async () => {
+    const data = await fetchProducts(props.category.productListId);
+    setProducts(data.items);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    async function fetchData() {
-      const data = await fetchProducts(props.category.productListId);
-      setProducts(data.items);
-      setLoading(false);
-    }
-    fetchData();
+    fetchDataRef.current();
   }, []);
 
   return (
