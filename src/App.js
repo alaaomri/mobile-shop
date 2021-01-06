@@ -6,6 +6,7 @@ import {
   modifyCartData,
   addNewCartData,
   fetchTopProducts,
+  placeOrder,
 } from "./api";
 import ErrorBloc from "./components/layout/ErrorBloc";
 import Footer from "./components/layout/Footer";
@@ -30,7 +31,7 @@ class App extends Component {
       categories: [],
       cartLoading: true,
       pageHasError: false,
-
+      oderSubmitted: false,
       cart: {
         id: "",
         total: 0.0,
@@ -84,6 +85,24 @@ class App extends Component {
 
     this.setState({ cartLoading: false });
   }
+
+  placeOrder = (order) => {
+    const id = localStorage.getItem("cartID");
+    placeOrder(order, id)
+      .then((res) => {
+        localStorage.removeItem("cartID");
+        this.setState({
+          cart: {
+            id: "",
+            total: 0.0,
+            subTotal: 0.0,
+            tax: 0.0,
+            items: [],
+          },
+        });
+      })
+      .catch((err) => console.error(err));
+  };
 
   recentViewedChangeHandler = (product) => {
     const { cookies } = this.props;
@@ -211,6 +230,7 @@ class App extends Component {
           changeQuantityHandler={this.changeCartQuantityHandler}
           cart={this.state.cart}
           categories={this.state.categories}
+          placeOrder={this.placeOrder}
         />
         <Footer categories={this.state.categories} />
       </BrowserRouter>

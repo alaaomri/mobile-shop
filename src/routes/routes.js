@@ -55,7 +55,9 @@ const routes = (props) => {
       />
       <Route
         path="/checkout.html"
-        render={() => <CheckoutPage cart={cart} />}
+        render={() => (
+          <CheckoutPage cart={cart} placeOrder={props.placeOrder} />
+        )}
       />
 
       <Route

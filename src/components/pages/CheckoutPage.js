@@ -62,16 +62,8 @@ class CheckoutPage extends Component {
   }
 
   handleSubmit = async () => {
-    console.log("submitted");
-    debugger;
-    const id = localStorage.getItem("cartID");
-    await placeOrder(this.state.order, id)
-      .then((res) => {
-        localStorage.removeItem("cartID");
-        this.setState({ oderSubmitted: true });
-        //this.props.history.push("/");
-      })
-      .catch((err) => console.error(err));
+    this.props.placeOrder(this.state.order);
+    this.setState({ oderSubmitted: true });
   };
 
   handleInfosChange = (name, value, targetState) => {
